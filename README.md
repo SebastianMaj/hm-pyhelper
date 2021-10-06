@@ -63,12 +63,11 @@ Please note, DIY Hotspots do not earn HNT.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Pi Supply IoT LoRa Gateway HAT | RPi | DIY-PISLGH | 0.0 | 22 |   |   | Light | False | Any pi with 40 pin header |
 | RAK2287 | RPi | DIY-RAK2287 | 0.0 | 17 |   |   | Light | False | Any pi with 40 pin header |
-## utils
 
-### logger
+## logger
 
 ```python
-from hm_pyhelper.utils import logger
+from hm_pyhelper.logger import get_logger
 logger = get_logger(__name__)
 logger.debug("message to log")
 ```
