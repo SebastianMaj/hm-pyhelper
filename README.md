@@ -68,21 +68,24 @@ Please note, DIY Hotspots do not earn HNT.
 
 ```python
 from hm_pyhelper.logger import get_logger
-logger = get_logger(__name__)
-logger.debug("message to log")
+LOGGER = get_logger(__name__)
+LOGGER.debug("message to log")
 ```
 
 ## miner_param
 
-### get_region
-Return the region from envvar REGION_OVERRIDE or
-from the contents of /var/pktfwd/region
+### retry_get_region(region_override, region_filepath)
+Return the region from envvar region_override or
+from the contents of region_filepath
 
 ```python
-from hm_pyhelper.miner_param import get_region
-print(get_region())
+from hm_pyhelper.miner_param import retry_get_region
+print(retry_get_region("US915", "/invalid/path"))
+# US9155
 
-> US9155
+# echo "EU868" > /var/pktfwd/region
+print(retry_get_region("", "/var/pktfwd/region"))
+# EU868
 ```
 
 ## Testing
