@@ -97,3 +97,8 @@ pip install -r requirements.txt
 pip install -r test-requirements.txt
 PYTHONPATH=./ pytest
 ```
+
+## Referencing a branch for development
+
+RUN pip3 install setuptools
+RUN pip3 install --target="$OUTPUTS_DIR" --no-cache-dir git+https://github.com/NebraLtd/hm-pyhelper@marvinmarnold/releases
