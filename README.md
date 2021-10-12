@@ -100,5 +100,7 @@ PYTHONPATH=./ pytest
 
 ## Referencing a branch for development
 
-RUN pip3 install setuptools
-RUN pip3 install --target="$OUTPUTS_DIR" --no-cache-dir git+https://github.com/NebraLtd/hm-pyhelper@marvinmarnold/releases
+RUN pip3 install setuptools wheel
+RUN pip3 install --target="$OUTPUTS_DIR" git+https://github.com/NebraLtd/hm-pyhelper@marvinmarnold/releases
+
+don't forget to add relevant dependencies to: install_requires of setup.py
