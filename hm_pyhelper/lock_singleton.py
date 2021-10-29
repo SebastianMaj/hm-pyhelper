@@ -61,7 +61,8 @@ class ResourceBusyError(posix_ipc.Error):
 
 class CannotLockError(posix_ipc.Error):
     """
-    Raised when can not lock the resource due to the permission issue, wrong IPC object or whatever internal issue.
+    Raised when can not lock the resource due to the permission issue,
+    wrong IPC object or whatever internal issue.
     """
     def __init__(self, *args, **kwargs):
         pass

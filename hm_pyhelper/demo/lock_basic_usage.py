@@ -1,5 +1,6 @@
 from time import sleep
-from hm_pyhelper.lock_singleton import LockSingleton, ResourceBusyError, CannotLockError
+from hm_pyhelper.lock_singleton import LockSingleton, \
+    ResourceBusyError, CannotLockError
 
 lock = LockSingleton("resource1")
 

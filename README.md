@@ -94,21 +94,26 @@ print(retry_get_region("", "/var/pktfwd/region"))
 ### Methods
 
 **LockSingleton(name, initial_value=1)**
-> Creates a new `LockSingleton` object.
-> - `name` uniquely identifies the `LockSingleton` in system wide.
-> - `initial_value` specifies the initial count of the resources.
+
+Creates a new `LockSingleton` object.
+- `name` uniquely identifies the `LockSingleton` in system wide.
+- `initial_value` specifies the initial count of the resources.
 
 **acquire([timeout = None])**
-> Waits until the resource is available and then returns, decrementing the available count.
+
+Waits until the resource is available and then returns, decrementing the available count.
  
 **release()**
-> Release the resource.
+
+Release the resource.
 
 **locked()**
-> Check if there is an available resource.
+
+Check if there is an available resource.
 
 **value()**
-> Returns the count of available resources.
+
+Returns the count of available resources.
 
 ### Usage
 ```
