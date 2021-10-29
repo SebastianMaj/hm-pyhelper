@@ -14,6 +14,7 @@ class LockSingleton(object):
 
     def __init__(self, name, initial_value=1):
         self._name = self._prefix + name
+        self._initial_value = initial_value
         # so it doesn't interfere with our semaphore mode
         old_umask = os.umask(0)
         try:
@@ -30,9 +31,13 @@ class LockSingleton(object):
         try:
             self._sem.acquire(timeout)
         except posix_ipc.BusyError:
-            return False
+            raise ResourceBusyError()
+        except posix_ipc.Error:     # Catch all IPC Errors except BusyError
+            raise CannotLockError()
 
-        return True
+        # Consume possible extra semaphore value
+        while self._sem.value >= self._initial_value:
+            self._sem.acquire(timeout)
 
     def release(self):
         """Release the lock
@@ -46,6 +51,22 @@ class LockSingleton(object):
         return self._sem.value
 
 
+class ResourceBusyError(posix_ipc.Error):
+    """
+    Raised when a call times out
+    """
+    def __init__(self, *args, **kwargs):
+        pass
+
+
+class CannotLockError(posix_ipc.Error):
+    """
+    Raised when can not lock the resource due to the permission issue, wrong IPC object or whatever internal issue.
+    """
+    def __init__(self, *args, **kwargs):
+        pass
+
+
 def ecc_lock(func):
     """Returns an ECC LOCK decorator.
     """
@@ -53,10 +74,19 @@ def ecc_lock(func):
 
     @functools.wraps(func)
     def wrapper_ecc_lock(*args, **kwargs):
-        if lock.acquire():
+        try:
+            # try to acquire the ECC resource or may raise an exception
+            lock.acquire()
+
             value = func(*args, **kwargs)
+
+            # release the resource
             lock.release()
+
             return value
-        else:
-            LOGGER.error("ECC in use, unable to acquire lock.")
+        except ResourceBusyError:
+            LOGGER.error("ECC is busy now.")
+        except CannotLockError:
+            LOGGER.error("Can't lock the ECC for some internal issue.")
+
     return wrapper_ecc_lock
